@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { RegisterUser, createUser } from "../../API/users.js";
+import {  createUser } from "../../API/users.js";
 import { UserContext } from "../../Hooks/UserContext.jsx";
 import "../../CSS/Register.css";
 
@@ -17,43 +17,28 @@ export default function Register() {
     e.preventDefault();
     setError("");
 
-    // בדיקות תקינות בסיסיות
+    // 1. בדיקות צד לקוח (Client-side validation)
     if (!name || !email || !password || !confirmPassword) {
       setError("All fields are required");
       return;
     }
-
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
     }
 
     try {
-      // 1. בדיקה אם המשתמש קיים (לפי אימייל עכשיו)
-      const userExists = await RegisterUser(email); 
-      if (userExists) {
-        setError("Email already registered");
-        return;
+      // 2. שליחה לשרת - הפונקציה בשרת כבר תבדוק אם האימייל קיים
+      const createdUser = await createUser({ name, email, password });
+
+      if (createdUser) {
+        login(createdUser);
+        // שלב ג': ניווט לכתובת אינפורמטיבית עם שם המשתמש
+        navigate(`/users/${createdUser.name}/home`);
       }
-
-      // 2. יצירת האובייקט לשליחה לשרת
-      const newUser = {
-        name,
-        email,
-        password // עכשיו הסיסמה נשלחת כסיסמה לשרת!
-      };
-
-      // 3. יצירת המשתמש בשרת
-      const createdUser = await createUser(newUser);
-
-      // 4. שמירה ב-Context וב-LocalStorage
-      login(createdUser);
-
-      // 5. ניווט - אפשר לעבור ישירות לדף הבית או לדף הצלחה
-      navigate(`/users/${createdUser.id}/home`);
-
     } catch (err) {
-      setError("Registration failed. Please try again.");
+      // טיפול בשגיאה מהשרת (למשל אימייל תפוס)
+      setError("Registration failed. Email might already be in use.");
     }
   };
 

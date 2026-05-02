@@ -1,27 +1,17 @@
 import { Outlet, useParams } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import Header from "../Home/Header.jsx";
+import { useContext } from "react";
+import Header from "../Home/Header.jsx"; // וודא שיש לך Header שמכיל לינקים
 import { UserContext } from "../../Hooks/UserContext.jsx";
 
 export default function Home() {
   const { user } = useContext(UserContext);
-  const { id } = useParams(); // ה-ID שמגיע מה-URL
-
-  // אופציונלי: בדיקה בטיחותית שהמשתמש ב-URL הוא אכן המשתמש המחובר
-  useEffect(() => {
-    if (user && id && user.id.toString() !== id.toString()) {
-      console.warn("User ID mismatch!");
-      // כאן אפשר להוסיף לוגיקה של ניתוב מחדש אם רוצים אבטחה מחמירה
-    }
-  }, [id, user]);
+  const { name } = useParams(); // מושך את השם מה-URL
 
   return (
     <div className="home-container">
-      {/* ה-Header יקבל את פרטי המשתמש מה-Context באופן אוטומטי */}
       <Header />
-      
       <main className="main-content" style={{ padding: "20px" }}>
-        {/* כאן ירונדרו הדפים הפנימיים: Todos, Posts, Info וכו' */}
+        <h1>Welcome, {name}</h1>
         <Outlet />
       </main>
     </div>
