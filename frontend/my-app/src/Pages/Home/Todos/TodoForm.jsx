@@ -8,28 +8,21 @@ export default function TodoForm({ onAdded }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const submit = async () => {
-        // וולידציה: לוודא שהכותרת לא ריקה או מכילה רק רווחים
         if (!title.trim()) return;
-
         try {
             setIsSubmitting(true);
-            
-            // שליחת הנתונים לשרת
-            // בשרת ה-MySQL החדש שלך, ה-ID ייווצר אוטומטית (Auto Increment)
-            const newTodo = await addTodo({ 
-                userId: user.id, 
-                title: title.trim(), 
-                completed: false 
+            // וודאי שה-API מחזיר את response.data
+            const response = await addTodo({
+                userId: user.id,
+                title: title.trim(),
+                completed: 0 // עדיף לשלוח 0 כברירת מחדל ל-SQL
             });
 
-            // עדכון רשימת ה-Todos בקומפוננטת האבא
+            // בדיקה: אם response הוא כבר המידע (כמו ב-api.js שלך), אל תשתמשי ב-.data
+            const newTodo = response.data || response;
             onAdded(newTodo);
-            
-            // איפוס השדה
-            setTitle("");
         } catch (error) {
-            console.error("Add todo error:", error);
-            alert("Failed to add todo. Please check your server connection.");
+            console.error("Add error:", error);
         } finally {
             setIsSubmitting(false);
         }
@@ -49,9 +42,9 @@ export default function TodoForm({ onAdded }) {
                 }}
                 disabled={isSubmitting}
             />
-            <button 
-                className="add-btn" 
-                onClick={submit} 
+            <button
+                className="add-btn"
+                onClick={submit}
                 disabled={isSubmitting || !title.trim()}
             >
                 {isSubmitting ? "Adding..." : "➕ Add"}

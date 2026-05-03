@@ -12,8 +12,8 @@ export default function Header() {
 
   const handleLogout = () => {
     // הפונקציה logout מה-Context כבר מטפלת במחיקת LS ואיפוס ה-State
-    logout(); 
-    navigate("/login"); 
+    logout();
+    navigate("/login");
   };
 
   return (
@@ -21,19 +21,15 @@ export default function Header() {
       <header className="app-header">
         <div className="header-left">
           <nav className="nav-links">
-            {/* דף הבית / מידע כללי */}
+            {/* דף הבית */}
             <NavLink to={`/users/${user?.id}/home`}>Home</NavLink>
-            
-            {/* דרישות שלב ד' */}
-            <NavLink to={`/users/${user?.id}/home/todos`}>Todos</NavLink>
-            
-            {/* דרישות שלב ה' */}
-            <NavLink to={`/users/${user?.id}/home/posts`}>Posts</NavLink>
-            
-            {/* אופציונלי - מהפרויקט הקודם */}
-            <NavLink to={`/users/${user?.id}/home/albums`}>Albums</NavLink>
-            
-            {/* כפתור ה-Info לפי שלב ג' */}
+
+            {/* משימות - הסרתי את ה-home מהנתיב */}
+            <NavLink to={`/users/${user?.id}/todos`}>Todos</NavLink>
+
+            {/* פוסטים - הסרתי את ה-home מהנתיב */}
+            <NavLink to={`/users/${user?.id}/posts`}>Posts</NavLink>
+
             <button className="info-btn" onClick={() => setShowInfo(true)}>
               Info
             </button>
@@ -42,10 +38,10 @@ export default function Header() {
 
         <div className="header-right">
           <span className="user-name">Hello {user?.name || "Guest"}</span>
-          
+
           {/* מודאל המידע האישי */}
           {showInfo && <Info onClose={() => setShowInfo(false)} />}
-          
+
           {/* כפתור יציאה לפי שלב ג' */}
           <button className="logout-btn" onClick={handleLogout}>
             Logout

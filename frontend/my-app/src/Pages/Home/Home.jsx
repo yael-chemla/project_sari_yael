@@ -6,12 +6,11 @@ import { UserContext } from "../../Hooks/UserContext.jsx";
 export default function Home() {
   const { user } = useContext(UserContext);
   const { name } = useParams(); // מושך את השם מה-URL
-
+console.log("--- DEBUG: Home Component Rendered ---");
   return (
     <div className="home-container">
       <Header />
       <main className="main-content" style={{ padding: "20px" }}>
-        <h1>Welcome, {name}</h1>
         <Outlet />
       </main>
     </div>

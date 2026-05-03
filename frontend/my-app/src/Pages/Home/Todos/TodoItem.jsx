@@ -1,3 +1,86 @@
+
+// import { useState } from "react";
+// import { updateTodo, deleteTodo } from "../../../API/todos";
+
+// export default function TodoItem({ todo, onUpdated, onDeleted }) {
+//   const [edit, setEdit] = useState(false);
+//   const [title, setTitle] = useState(todo.title);
+
+//  const handleToggle = async () => {
+//   try {
+//     // שליחת הערך ההפוך לשרת
+//     const newStatus = todo.completed ? 0 : 1; 
+    
+//     const updatedTodoData = await updateTodo(todo.id, { 
+//       title: todo.title,
+//       completed: newStatus 
+//     });
+    
+//     // קריטי: וודאי שהשרת מחזיר את האובייקט המעודכן
+//     // אם updatedTodoData הוא רק הודעת הצלחה, השתמשי בזה:
+//     onUpdated({ ...todo, completed: newStatus }); 
+//   } catch (err) {
+//     console.error("Toggle error:", err);
+//   }
+// };
+
+// const handleSaveTitle = async () => {
+//   if (!title.trim()) return;
+//   try {
+//     const updatedTodoData = await updateTodo(todo.id, { 
+//       title: title.trim(), 
+//       completed: todo.completed 
+//     });
+
+//     // בדיקה קריטית: מה חוזר מה-API? 
+//     // אם השרת מחזיר רק { message: "success" }, ה-State באבא יימחק/יידפק.
+//     // לכן, אם updatedTodoData לא מכיל את ה-ID וה-Title החדש, תבני אותו ידנית:
+//     const finalUpdate = (updatedTodoData && updatedTodoData.id) 
+//                         ? updatedTodoData 
+//                         : { ...todo, title: title.trim() };
+
+//     onUpdated(finalUpdate);   
+//     setEdit(false);
+//   } catch (err) {
+//     console.error("Update title error:", err);
+//   }
+// };
+
+//   const handleDelete = async () => {
+//     if (!window.confirm("Are you sure?")) return;
+//     try {
+//       await deleteTodo(todo.id);
+//       onDeleted(todo.id);
+//     } catch (err) {
+//       alert("Error deleting");
+//     }
+//   };
+
+//   return (
+//     <div className={`todo-card ${todo.completed ? "completed" : ""}`}>
+//       <input
+//         type="checkbox"
+//         checked={Boolean(todo.completed)} 
+//         onChange={handleToggle}
+//       />
+//       {edit ? (
+//         <div className="edit-mode">
+//           <input value={title} onChange={(e) => setTitle(e.target.value)} autoFocus />
+//           <button onClick={handleSaveTitle}>💾</button>
+//           <button onClick={() => { setEdit(false); setTitle(todo.title); }}>❌</button>
+//         </div>
+//       ) : (
+//         <>
+//           <span style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+//             {todo.title}
+//           </span>
+//           <button onClick={() => setEdit(true)}>✏️</button>
+//           <button onClick={handleDelete}>🗑️</button>
+//         </>
+//       )}
+//     </div>
+//   );
+// }
 import { useState } from "react";
 import { updateTodo, deleteTodo } from "../../../API/todos";
 
@@ -5,60 +88,62 @@ export default function TodoItem({ todo, onUpdated, onDeleted }) {
   const [edit, setEdit] = useState(false);
   const [title, setTitle] = useState(todo.title);
 
-  // שינוי מצב ה-Checkbox
   const handleToggle = async () => {
     try {
-      // שליחת אובייקט שלם ל-PUT כפי שדרשנו ב-API
-      const updated = await updateTodo(todo.id, { 
-        userId: todo.userId, // חשוב לשלוח את ה-userId כדי שהשרת יוכל לאמת בעלות
+      const newStatus = todo.completed ? 0 : 1;
+      const updatedTodoData = await updateTodo(todo.id, {
         title: todo.title,
-        completed: !todo.completed 
+        completed: newStatus,
       });
-      
-      // אם השרת מחזיר את האובייקט המעודכן, נעדכן את ה-State של האבא
-      onUpdated(updated); 
+
+      onUpdated({ ...todo, completed: newStatus });
     } catch (err) {
       console.error("Toggle error:", err);
-      alert("נכשל בעדכון הסטטוס");
     }
   };
 
-  // מחיקת Todo
+  const handleSaveTitle = async () => {
+    if (!title.trim()) return;
+    try {
+      const updatedTodoData = await updateTodo(todo.id, {
+        title: title.trim(),
+        completed: todo.completed,
+      });
+
+      const finalUpdate =
+        updatedTodoData && updatedTodoData.id
+          ? updatedTodoData
+          : { ...todo, title: title.trim() };
+
+      onUpdated(finalUpdate);
+      setEdit(false);
+    } catch (err) {
+      console.error("Update title error:", err);
+    }
+  };
+
   const handleDelete = async () => {
-    // מומלץ להוסיף אישור לפני מחיקה
-    if (!window.confirm("בטוח שברצונך למחוק מטלה זו?")) return;
-    
+    if (!window.confirm("Are you sure?")) return;
     try {
       await deleteTodo(todo.id);
       onDeleted(todo.id);
     } catch (err) {
-      alert("שגיאה במחיקה");
-    }
-  };
-
-  // שמירת כותרת חדשה בעריכה
-  const handleSaveTitle = async () => {
-    if (!title.trim()) return;
-    try {
-      const updated = await updateTodo(todo.id, { 
-        userId: todo.userId,
-        title: title.trim(), 
-        completed: todo.completed 
-      });
-      onUpdated(updated);  
-      setEdit(false);
-    } catch (err) {
-      alert("נכשל בעדכון הכותרת");
+      alert("Error deleting");
     }
   };
 
   return (
-    <div className={`todo-card ${todo.completed ? "completed" : "not-completed"}`}>
+    <div className={`todo-card ${todo.completed ? "completed" : ""}`}>
       <input
         type="checkbox"
-        checked={!!todo.completed} // ה-!! מוודא המרה לבוליאני גם אם זה 0/1 מה-SQL
+        checked={Boolean(todo.completed)}
         onChange={handleToggle}
       />
+      
+      {/* הצגת ה-ID של המטלה */}
+      <span className="todo-id" style={{ marginRight: "10px", fontWeight: "bold", color: "#888" }}>
+        #{todo.id}
+      </span>
 
       {edit ? (
         <div className="edit-mode">
@@ -66,23 +151,30 @@ export default function TodoItem({ todo, onUpdated, onDeleted }) {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             autoFocus
-            onKeyDown={(e) => e.key === "Enter" && handleSaveTitle()}
           />
-          <div className="edit-actions">
-            <button onClick={handleSaveTitle} title="Save">💾</button>
-            <button onClick={() => { setEdit(false); setTitle(todo.title); }} title="Cancel">❌</button>
-          </div>
+          <button onClick={handleSaveTitle}>💾</button>
+          <button
+            onClick={() => {
+              setEdit(false);
+              setTitle(todo.title);
+            }}
+          >
+            ❌
+          </button>
         </div>
       ) : (
         <>
-          <div className="todo-id">#{todo.id}</div>
-          <div className="todo-title" style={{ textDecoration: todo.completed ? "line-through" : "none" }}>
+          <span
+            style={{
+              textDecoration: todo.completed ? "line-through" : "none",
+              flex: 1, // גורם לטקסט לתפוס את המקום שנשאר
+            }}
+          >
             {todo.title}
-          </div>
-
+          </span>
           <div className="todo-actions">
-            <button onClick={() => setEdit(true)} title="Edit">✏️</button>
-            <button onClick={handleDelete} title="Delete">🗑️</button>
+            <button onClick={() => setEdit(true)}>✏️</button>
+            <button onClick={handleDelete}>🗑️</button>
           </div>
         </>
       )}

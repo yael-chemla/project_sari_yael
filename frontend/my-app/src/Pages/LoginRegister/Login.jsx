@@ -21,6 +21,7 @@ export default function Login() {
     const userData = await LoginUser(email, password);
     if (userData && userData.user) { // השרת שלך מחזיר {user: {...}}
       login(userData.user); 
+      console.log("User from server:", userData.user); // תבדקי אם יש שם id
       navigate(`/users/${userData.user.name}/home`);
     }
   } catch (err) {

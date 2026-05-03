@@ -7,7 +7,9 @@ async function request(url, options = {}) {
     },
     ...options,
   });
-
+console.log(`--- API CALL: ${url} ---`);
+  const fullUrl = `${API_BASE}${url}`;
+  console.log("Full URL:", fullUrl);
   if (!res.ok) {
     const errorText = await res.text();
     throw new Error(errorText || "API Error");
