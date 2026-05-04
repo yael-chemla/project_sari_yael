@@ -21,21 +21,28 @@ export default function PostDetails({ post, onUpdated, onDeleted, onClose }) {
     setEdit(false);
   }, [post.id, post.title, post.body]);
 
-  const save = async () => {
-    if (!title.trim() || !body.trim()) return;
-    try {
-      // ב-MySQL אנחנו שולחים את המידע המעודכן
-      const updated = await updatePost(post.id, { 
-        title: title.trim(), 
-        body: body.trim(),
-        userId: post.userId // שמירה על ה-userId המקורי
-      });
-      onUpdated(updated);
-      setEdit(false);
-    } catch (err) {
-      alert("Failed to update post");
-    }
-  };
+const save = async () => {
+  if (!title.trim() || !body.trim()) return;
+  try {
+    const updatedData = { 
+      ...post, // שומר על ה-ID וה-userId המקוריים
+      title: title.trim(), 
+      body: body.trim() 
+    };
+
+    // שליחה לשרת
+    const result = await updatePost(post.id, updatedData);
+    
+    // אם השרת מחזיר את האובייקט המעודכן, נשתמש בו. 
+    // אם הוא מחזיר רק אישור, נשתמש ב-updatedData שבנינו.
+    const finalPost = result?.id ? result : updatedData;
+
+    onUpdated(finalPost); // מעדכן את הרשימה באבא
+    setEdit(false);
+  } catch (err) {
+    alert("Failed to update post");
+  }
+};
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this post? All comments will be deleted too.")) return;

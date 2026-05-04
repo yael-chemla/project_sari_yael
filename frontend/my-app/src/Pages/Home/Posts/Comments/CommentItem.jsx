@@ -6,23 +6,41 @@ export default function CommentItem({ comment, canEdit, onDeleted, onUpdated }) 
   const [text, setText] = useState(comment.body);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  const handleSave = async () => {
+  // const handleSave = async () => {
+  //   if (!text.trim()) return;
+  //   try {
+  //     setIsProcessing(true);
+  //     // שליחת העדכון לשרת (מבוסס על ה-ID הייחודי מה-DB)
+  //     const updated = await updateComment(comment.id, {
+  //       ...comment,
+  //       body: text.trim()
+  //     });
+  //     onUpdated(updated);
+  //     setEdit(false);
+  //   } catch (err) {
+  //     alert("Failed to update comment");
+  //   } finally {
+  //     setIsProcessing(false);
+  //   }
+  // };
+  // בתוך CommentItem.jsx
+const handleSave = async () => {
     if (!text.trim()) return;
     try {
-      setIsProcessing(true);
-      // שליחת העדכון לשרת (מבוסס על ה-ID הייחודי מה-DB)
-      const updated = await updateComment(comment.id, {
-        ...comment,
-        body: text.trim()
-      });
-      onUpdated(updated);
-      setEdit(false);
+        setIsProcessing(true);        
+        // כאן אנחנו מעבירים את ה-ID מהאובייקט comment
+        const updated = await updateComment(comment.id, {
+            body: text.trim()
+        });
+        onUpdated(updated);
+        setEdit(false);
     } catch (err) {
-      alert("Failed to update comment");
+        console.error("[Component] שגיאה בעדכון:", err);
+        alert("Failed to update comment");
     } finally {
-      setIsProcessing(false);
+        setIsProcessing(false);
     }
-  };
+};
 
   const handleDelete = async () => {
     if (!window.confirm("Are you sure you want to delete this comment?")) return;

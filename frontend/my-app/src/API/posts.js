@@ -78,20 +78,48 @@ export const deletePost = (id) =>
 export const getCommentsByPost = (postId) =>
   api.get(`/comments?postId=${postId}`);
 
+export const getCommentById = (commentId) =>
+  api.get(`/comments/${commentId}`);
+
+
+
 export const addComment = (commentData) =>
   api.post("/comments", {
     postId: commentData.postId,
-    userId: commentData.userId, // הוספנו לפי ה-Controller שלך
+    userId: commentData.userId, 
     name: commentData.name,
     email: commentData.email,
     body: commentData.body
   });
 
 // שינוי ל-PUT
-export const updateComment = (id, data) =>
-  api.put(`/comments/${id}`, { 
-    body: data.body 
-  });
+// export const updateComment = (id, data) =>
+//   console.log(`[Frontend] Sending PUT to /comments/${id}, data:`, data);
+//   api.put(`/comments/${id}`, { 
+//     body: data.body 
+//   });
+// קובץ API/posts.js
+// export const updateComment = async (commentId, data) => {
+//     console.log(`[Frontend] מתחיל עדכון לתגובה מספר: ${commentId}`);
+//     console.log(`[Frontend] הנתונים שנשלחים:`, data);
+    
+//     try {
+//         // וודאי שהפרמטר הראשון הוא commentId
+//         const response = await api.put(`/comments/${commentId}`, { 
+//             body: data.body 
+//         });
+        
+//         console.log(`[Frontend] תגובה מהשרת:`, response);
+//         return response;
+//     } catch (error) {
+//         console.error(`[Frontend] שגיאה בשליחת העדכון:`, error);
+//         throw error;
+//     }
+// };
 
+
+
+export const updateComment = (id, body) =>
+  api.put(`/comments/${id}`, { body });
 export const deleteComment = (id) =>
   api.delete(`/comments/${id}`);

@@ -4,22 +4,17 @@ import * as postController from '../controllers/posts.js';
 const router = express.Router();
 
 
-// 1. קבלת כל הפוסטים (GET /posts)
-// מחזיר את רשימת כל הפוסטים של כל המשתמשים (כפי שנדרש בשלב ה')
+//קבלת כל הפוסטים
 router.get('/', postController.getAllPosts);
 
-// 2. יצירת פוסט חדש (POST /posts)
+//  יצירת פוסט חדש 
 router.post('/', postController.createPost);
 
-// 3. עדכון פוסט (PUT /posts/:id)
-// שים לב: לפי שלב ה', רק בעל הפוסט רשאי לעדכן
+//  עדכון פוסט 
 router.put('/:id', postController.updatePost);
 
-// 4. מחיקת פוסט (DELETE /posts/:id)
-// שים לב: לפי שלב ה', רק בעל הפוסט רשאי למחוק
+//  מחיקת פוסט 
 router.delete('/:id', postController.deletePost);
 
-
-// תוסיפי את השורה הזו מתחת ל-router.get של כל הפוסטים
 router.get('/:id', postController.getPostById);
 export default router;

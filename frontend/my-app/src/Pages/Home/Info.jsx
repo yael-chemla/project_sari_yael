@@ -36,29 +36,8 @@ export default function Info({ onClose }) {
             { label: "ID", value: userData.id },
             { label: "Full Name", value: userData.name },
             { label: "Email", value: userData.email },
-            { label: "Phone", value: userData.phone },
           ]}
         />
-
-        <Section
-          title="Location Details"
-          fields={[
-            { label: "City", value: userData.city },
-            { label: "Street", value: userData.street },
-            // אם השארת את השדות האלו ב-SQL ובטופס ה-Complete:
-            { label: "Zip Code", value: userData.zipcode },
-          ]}
-        />
-
-        {/* אם בחרת לצמצם את הדאטהבייס ולא שמרת מידע על חברה, אפשר להסיר את ה-Section הזה */}
-        {userData.companyName && (
-          <Section
-            title="Company"
-            fields={[
-              { label: "Name", value: userData.companyName },
-            ]}
-          />
-        )}
       </div>
     </div>
   );

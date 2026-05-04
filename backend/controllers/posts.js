@@ -13,9 +13,9 @@ export const createPost = async (req, res) => {
     try {
         const { userId, title, body } = req.body;
         
-        if (!userId || !title || !body) {
-            return res.status(400).json({ error: 'All fields are required' });
-        }
+        // if (!userId || !title || !body) {
+        //     return res.status(400).json({ error: 'All fields are required' });
+        // }
         
         const newPostId = await PostModel.createPost(userId, title, body);
         res.status(201).json({ id: newPostId, userId, title, body });
@@ -29,8 +29,6 @@ export const updatePost = async (req, res) => {
     try {
         const { id } = req.params;
         const { title, body } = req.body;
-
-        // הערה: בשלב מתקדם תצטרכי לבדוק כאן אם המשתמש המחובר הוא בעל הפוסט
         await PostModel.updatePost(id, title, body);
         res.json({ message: 'Post updated successfully' });
     } catch (error) {

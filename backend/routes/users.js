@@ -3,9 +3,8 @@ import express from 'express';
 import * as userController from '../controllers/users.js';
 
 const router = express.Router();
+//לinfo
+router.get('/:id', userController.getUserById); 
 
-// router.get('/', userController.getUserByEmail); // לשימוש ב-Login (למשל ?email=...)
-router.get('/:id', userController.getUserById); // לשימוש בעמוד Info
-router.post('/', userController.createUser);    // ליצירת משתמש חדש
-
+router.post('/', userController.createUser);    
 export default router;

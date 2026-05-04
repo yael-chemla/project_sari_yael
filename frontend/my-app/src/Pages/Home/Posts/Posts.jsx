@@ -69,7 +69,7 @@ export default function Posts() {
     <div className="posts-layout">
       <main className="posts-content">
         <header className="posts-header">
-           <h2>Posts Feed</h2>
+           <h2>Posts</h2>
            <span className="post-count">Showing {filteredPosts.length} posts</span>
         </header>
         
