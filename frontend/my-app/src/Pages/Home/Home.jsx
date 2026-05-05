@@ -4,8 +4,6 @@ import Header from "../Home/Header.jsx";
 import { UserContext } from "../../Hooks/UserContext.jsx";
 
 export default function Home() {
-  // const { user } = useContext(UserContext);
-  // const { name } = useParams();
   return (
     <div className="home-container">
       <Header />
