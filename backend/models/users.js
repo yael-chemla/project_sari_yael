@@ -1,10 +1,4 @@
 import pool from '../config/database.js';
-
-export async function getUserById(id) {
-    const [rows] = await pool.execute("SELECT id, name, email FROM users WHERE id = ?", [id]);
-    return rows[0];
-}
-
 export async function getUserByEmail(email) {
     const [rows] = await pool.execute("SELECT * FROM users WHERE email = ?", [email]);
     return rows[0];

@@ -5,19 +5,18 @@ import { UserContext } from "../../Hooks/UserContext.jsx";
 import "../../CSS/Register.css";
 
 export default function Register() {
-  const [name, setName] = useState(""); // הוספת שדה שם
-  const [email, setEmail] = useState(""); // שימוש באימייל
+  const [name, setName] = useState(""); 
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
-  const { login } = useContext(UserContext); // שימוש בקיצור הדרך שבנינו
+  const { login } = useContext(UserContext); 
   const navigate = useNavigate();
   
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
 
-    // 1. בדיקות צד לקוח (Client-side validation)
     if (!name || !email || !password || !confirmPassword) {
       setError("All fields are required");
       return;
@@ -28,16 +27,12 @@ export default function Register() {
     }
 
     try {
-      // 2. שליחה לשרת - הפונקציה בשרת כבר תבדוק אם האימייל קיים
       const createdUser = await createUser({ name, email, password });
-
       if (createdUser) {
         login(createdUser);
-        // שלב ג': ניווט לכתובת אינפורמטיבית עם שם המשתמש
-        navigate(`/users/${createdUser.name}/home`);
+        navigate(`/users/${createdUser.id}/home`);
       }
     } catch (err) {
-      // טיפול בשגיאה מהשרת (למשל אימייל תפוס)
       setError("Registration failed. Email might already be in use.");
     }
   };

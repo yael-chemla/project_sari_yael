@@ -11,14 +11,11 @@ export default function TodoForm({ onAdded }) {
         if (!title.trim()) return;
         try {
             setIsSubmitting(true);
-            // וודאי שה-API מחזיר את response.data
             const response = await addTodo({
                 userId: user.id,
                 title: title.trim(),
-                completed: 0 // עדיף לשלוח 0 כברירת מחדל ל-SQL
+                completed: 0 
             });
-
-            // בדיקה: אם response הוא כבר המידע (כמו ב-api.js שלך), אל תשתמשי ב-.data
             const newTodo = response.data || response;
             onAdded(newTodo);
         } catch (error) {

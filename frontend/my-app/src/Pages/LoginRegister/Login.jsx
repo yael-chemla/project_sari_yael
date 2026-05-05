@@ -11,18 +11,21 @@ export default function Login() {
   const navigate = useNavigate();
 
   if (user) {
-    return <Navigate to={`/users/${user.name}/home`} replace />;
+    return <Navigate to={`/users/${user.id}/home`} replace />;
   }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
+       if (!email || !password) {
+      setError("All fields are required");
+      return;
+    }
       const userData = await LoginUser(email, password);
-      if (userData && userData.user) { // השרת שלך מחזיר {user: {...}}
+      if (userData && userData.user) { 
         login(userData.user);
-        console.log("User from server:", userData.user); // תבדקי אם יש שם id
-        navigate(`/users/${userData.user.name}/home`);
+        navigate(`/users/${userData.user.id}/home`);
       }
     } catch (err) {
       setError("Invalid email or password");

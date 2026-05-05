@@ -8,24 +8,20 @@ export default function CommentForm({ postId, onCommentAdded }) {
   const [loading, setLoading] = useState(false);
 
   const submit = async () => {
-    // מניעת שליחת טקסט ריק או רווחים בלבד
     if (!text.trim()) return;
 
     try {
       setLoading(true);
-      
-      // ב-MySQL, ה-postId וה-userId הם השדות החשובים ביותר לקישור הטבלאות
-      const newComment = await addComment({
+        const newComment = await addComment({
         postId,
         userId: user.id,
-        // אנחנו שולחים גם שם ואימייל כדי שהשרת יוכל להחזיר אותם מיד לתצוגה
         name: user.name || user.username, 
         email: user.email,
         body: text.trim(),
       });
 
       onCommentAdded(newComment);
-      setText(""); // איפוס השדה לאחר הצלחה
+      setText("");
     } catch (err) {
       console.error("Add comment error:", err);
       alert("Failed to add comment. Please try again.");

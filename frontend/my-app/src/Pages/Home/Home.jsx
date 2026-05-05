@@ -1,12 +1,11 @@
 import { Outlet, useParams } from "react-router-dom";
 import { useContext } from "react";
-import Header from "../Home/Header.jsx"; // וודא שיש לך Header שמכיל לינקים
+import Header from "../Home/Header.jsx";
 import { UserContext } from "../../Hooks/UserContext.jsx";
 
 export default function Home() {
-  const { user } = useContext(UserContext);
-  const { name } = useParams(); // מושך את השם מה-URL
-console.log("--- DEBUG: Home Component Rendered ---");
+  // const { user } = useContext(UserContext);
+  // const { name } = useParams();
   return (
     <div className="home-container">
       <Header />

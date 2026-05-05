@@ -10,7 +10,6 @@ export async function getAllPosts() {
     return rows;
 }
 
-
 export async function createPost(userId, title, body) {
     const [result] = await pool.execute(
         "INSERT INTO posts (userId, title, body) VALUES (?, ?, ?)",

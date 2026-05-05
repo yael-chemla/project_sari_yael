@@ -7,7 +7,6 @@ export default function CommentList({ comments = [], onDeleted, onUpdated }) {
 
   return (
     <div className="comment-list">
-      {/* הצגת הודעה במידה ואין תגובות */}
       {comments.length === 0 ? (
         <p className="empty-msg">No comments yet. Be the first to react!</p>
       ) : (
@@ -15,10 +14,6 @@ export default function CommentList({ comments = [], onDeleted, onUpdated }) {
           <CommentItem
             key={comment.id}
             comment={comment}
-            /* בדיקת הרשאות: 
-               ב-MySQL עדיף להשוות userId (מספר) כי אימייל יכול להשתנות, 
-               אבל אם השרת מחזיר אימייל בכל תגובה, הבדיקה שלך תעבוד מצוין.
-            */
             canEdit={Number(comment.userId) === Number(user?.id) || comment.email === user?.email}
             onDeleted={onDeleted}
             onUpdated={onUpdated}

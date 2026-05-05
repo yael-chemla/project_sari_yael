@@ -8,7 +8,58 @@ import Welcome from "./Pages/Home/Welcome.jsx";
 import Todos from './Pages/Home/Todos/Todos.jsx';
 import Posts from './Pages/Home/Posts/Posts.jsx';
 import Info from './Pages/Home/Info.jsx';
+import './App.css';
 
+function App() {
+  return (
+    <UserProvider>
+      {/* ה-div הזה הוא האחראי על המרמורק של כל דף שייבחר ב-Routes */}
+      <div className="main-app-container">
+        <Routes>
+          <Route path="/" element={<Navigate to="/login" replace />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+
+          <Route element={<ProtectedRoute />}>
+            <Route path="/users/:name/*" element={<Home />}>
+              <Route path="home" element={<Welcome />} />
+              <Route path="info" element={<Info />} /> 
+              <Route path="todos" element={<Todos />} />
+              <Route path="posts" element={<Posts />} />
+              <Route index element={<Welcome />} />
+            </Route>
+          </Route>
+        </Routes>
+      </div>
+    </UserProvider>
+  );
+}
+
+export default App;
+
+// // function App() {
+// //   return (
+// //     <UserProvider>
+// //       <Routes>
+// //         <Route path="/" element={<Navigate to="/login" replace />} />
+// //         <Route path="/login" element={<Login />} />
+// //         <Route path="/register" element={<Register />} />
+
+// //         <Route element={<ProtectedRoute />}>
+// //           {/* :name מייצג את החלק האינפורמטיבי ב-URL */}
+// //           <Route path="/users/:name" element={<Home />}>
+// //             <Route path="home" element={<Welcome />} />
+// //             <Route path="info" element={<Info />} /> 
+// //             <Route path="todos" element={<Todos />} />
+// //             <Route path="posts" element={<Posts />} />
+// //           </Route>
+// //         </Route>
+// //       </Routes>
+// //     </UserProvider>
+// //   );
+// // }
+
+// //  export default App;
 // function App() {
 //   return (
 //     <UserProvider>
@@ -18,43 +69,20 @@ import Info from './Pages/Home/Info.jsx';
 //         <Route path="/register" element={<Register />} />
 
 //         <Route element={<ProtectedRoute />}>
-//           {/* :name מייצג את החלק האינפורמטיבי ב-URL */}
-//           <Route path="/users/:name" element={<Home />}>
+//           {/* הוספת /* בסוף הנתיב היא קריטית כדי ש-React Router יחפש תתי-נתיבים בפנים */}
+//           <Route path="/users/:name/*" element={<Home />}>
+//             {/* כעת כל הנתיבים הללו יחליפו אחד את השני בתוך ה-Outlet של Home */}
 //             <Route path="home" element={<Welcome />} />
 //             <Route path="info" element={<Info />} /> 
 //             <Route path="todos" element={<Todos />} />
 //             <Route path="posts" element={<Posts />} />
+            
+//             {/* אופציונלי: מה יקרה אם יכנסו רק ל-/users/name? */}
+//             <Route index element={<Welcome />} />
 //           </Route>
 //         </Route>
 //       </Routes>
 //     </UserProvider>
 //   );
 // }
-
-//  export default App;
-function App() {
-  return (
-    <UserProvider>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-        <Route element={<ProtectedRoute />}>
-          {/* הוספת /* בסוף הנתיב היא קריטית כדי ש-React Router יחפש תתי-נתיבים בפנים */}
-          <Route path="/users/:name/*" element={<Home />}>
-            {/* כעת כל הנתיבים הללו יחליפו אחד את השני בתוך ה-Outlet של Home */}
-            <Route path="home" element={<Welcome />} />
-            <Route path="info" element={<Info />} /> 
-            <Route path="todos" element={<Todos />} />
-            <Route path="posts" element={<Posts />} />
-            
-            {/* אופציונלי: מה יקרה אם יכנסו רק ל-/users/name? */}
-            <Route index element={<Welcome />} />
-          </Route>
-        </Route>
-      </Routes>
-    </UserProvider>
-  );
-}
-  export default App;
+//   export default App;

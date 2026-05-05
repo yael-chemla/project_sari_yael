@@ -1,6 +1,4 @@
 import * as TodoModel from '../models/todos.js';
-
-
 export const getTodosByUserId = async (req, res) => {
     try {
         const userId = req.query.userId;
@@ -8,11 +6,10 @@ export const getTodosByUserId = async (req, res) => {
         const todos = await TodoModel.getTodosByUserId(userId);
         res.json(todos);
     } catch (error) {
-        console.error(error); // חשוב כדי לראות שגיאות SQL
+        console.error(error); 
         res.status(500).json({ error: 'Failed to fetch todos' });
     }
 };
-
 
 export const createTodo = async (req, res) => {
     try {

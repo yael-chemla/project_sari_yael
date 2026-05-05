@@ -9,16 +9,15 @@ export default function SearchBar({
 }) {
   return (
     <div className={`search-bar-container ${className}`}>
-      {/* שדה הקלט לחיפוש */}
       <input
-        type={searchType === "id" ? "number" : "text"} // שיפור: משנה את סוג המקלדת בטלפונים כשמחפשים ID
+        type={searchType === "id" ? "number" : "text"} 
         className="search-input"
         value={value}
         placeholder={placeholder}
         onChange={(e) => onChange(e.target.value)}
       />
 
-      {/* בחירת סוג החיפוש - מופיע רק אם הועברו אפשרויות */}
+      
       {searchOptions && (
         <select
           className="search-type-select"

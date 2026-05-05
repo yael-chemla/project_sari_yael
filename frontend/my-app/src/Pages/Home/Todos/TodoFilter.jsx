@@ -1,4 +1,3 @@
-// אין שינוי מהותי בקוד, רק הוספתי הערות לגבי דרישות הפרויקט
 import SearchBar from "../Common/Search";
 import Select from "../Common/Select";
 
@@ -24,11 +23,10 @@ export default function TodoFilter({
         placeholder="Search todos..."
         searchOptions={[
           { value: "title", label: "By Title" },
-          { value: "id", label: "By ID" }, // תואם לדרישה של "לפי מספר ה-ID"
+          { value: "id", label: "By ID" }, 
         ]}
       />
 
-      {/* פילטור לפי סטטוס ביצוע - שלב ד' בדרישות */}
       <Select
         value={filter}
         onChange={setFilter}
@@ -39,7 +37,6 @@ export default function TodoFilter({
         ]}
       />
 
-      {/* מיון - שלב ד' דורש מיון לפי ID כברירת מחדל */}
       <Select
         value={sortBy}
         onChange={setSortBy}

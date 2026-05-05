@@ -1,8 +1,6 @@
 import PostItem from "./PostItem";
 
 export default function PostList({ posts, onUpdated, onDeleted }) {
-  
-  // טיפול במצב שבו אין פוסטים (למשל אחרי חיפוש או סינון ל"פוסטים שלי")
   if (!posts || posts.length === 0) {
     return (
       <div className="no-posts-message">
@@ -15,7 +13,7 @@ export default function PostList({ posts, onUpdated, onDeleted }) {
     <ul className="post-list">
       {posts.map(post => (
         <PostItem
-          key={post.id} // המזהה הייחודי מה-MySQL
+          key={post.id} 
           post={post}
           onUpdated={onUpdated} 
           onDeleted={onDeleted}

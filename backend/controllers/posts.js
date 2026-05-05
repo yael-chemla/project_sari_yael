@@ -12,11 +12,6 @@ export const getAllPosts = async (req, res) => {
 export const createPost = async (req, res) => {
     try {
         const { userId, title, body } = req.body;
-        
-        // if (!userId || !title || !body) {
-        //     return res.status(400).json({ error: 'All fields are required' });
-        // }
-        
         const newPostId = await PostModel.createPost(userId, title, body);
         res.status(201).json({ id: newPostId, userId, title, body });
     } catch (error) {
@@ -46,6 +41,7 @@ export const deletePost = async (req, res) => {
         res.status(500).json({ error: 'Failed to delete post' });
     }
 };
+
 export const getPostById = async (req, res) => {
     try {
         const { id } = req.params;

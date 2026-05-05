@@ -2,8 +2,6 @@ import express from 'express';
 import * as commentController from '../controllers/comments.js';
 const router = express.Router();
 
-router.get('/:id', commentController.getCommentById); 
-
 router.put('/:id', commentController.updateComment);
 
 router.delete('/:id', commentController.deleteComment);

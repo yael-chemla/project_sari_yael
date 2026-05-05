@@ -1,13 +1,11 @@
 import { useState, useEffect, useContext } from "react";
-import CommentS from "./Comments/Comment"; // ודאי שהשם תואם לקומפוננטה שלך
-import { updatePost, deletePost } from '../../../API/posts'; // הסרתי את deleteCommentsByPost
+import CommentS from "./Comments/Comment"; 
+import { updatePost, deletePost } from '../../../API/posts';
 import { UserContext } from "../../../Hooks/UserContext.jsx";
 
 export default function PostDetails({ post, onUpdated, onDeleted, onClose }) {
   const { user } = useContext(UserContext);
   const userId = user?.id;
-
-  // בדיקת הרשאות עריכה/מחיקה - רק אם הפוסט שייך למשתמש המחובר
   const canEdit = Number(post.userId) === Number(userId);
 
   const [edit, setEdit] = useState(false);
@@ -22,22 +20,22 @@ export default function PostDetails({ post, onUpdated, onDeleted, onClose }) {
   }, [post.id, post.title, post.body]);
 
 const save = async () => {
-  if (!title.trim() || !body.trim()) return;
+  if (!title.trim() || !body.trim()) {
+    alert("Title and body cannot be empty");
+    return;
+  }
   try {
     const updatedData = { 
-      ...post, // שומר על ה-ID וה-userId המקוריים
+      ...post,
       title: title.trim(), 
       body: body.trim() 
     };
 
-    // שליחה לשרת
+   
     const result = await updatePost(post.id, updatedData);
-    
-    // אם השרת מחזיר את האובייקט המעודכן, נשתמש בו. 
-    // אם הוא מחזיר רק אישור, נשתמש ב-updatedData שבנינו.
     const finalPost = result?.id ? result : updatedData;
 
-    onUpdated(finalPost); // מעדכן את הרשימה באבא
+    onUpdated(finalPost); 
     setEdit(false);
   } catch (err) {
     alert("Failed to update post");
@@ -48,11 +46,7 @@ const save = async () => {
     if (!window.confirm("Are you sure you want to delete this post? All comments will be deleted too.")) return;
     
     try {
-      /**
-       * שימי לב: בזכות ה-ON DELETE CASCADE שהגדרת ב-SQL, 
-       * אין צורך לקרוא ל-deleteCommentsByPost!
-       * ברגע שהשרת ימחק את הפוסט, ה-MySQL ימחק אוטומטית את כל התגובות שלו.
-       */
+
       await deletePost(post.id);
       onDeleted(post.id);
     } catch (err) {
@@ -91,7 +85,6 @@ const save = async () => {
 
       <div className="post-details-actions">
         <div className="comment-toolbar">
-          {/* עריכה מוצגת רק לבעל הפוסט */}
           {canEdit && !edit && (
             <button onClick={() => setEdit(true)}>✏️ Edit</button>
           )}
@@ -99,8 +92,6 @@ const save = async () => {
           <button onClick={() => setShowComments(p => !p)}>
             💬 {showComments ? "Hide comments" : "Show comments"}
           </button>
-
-          {/* מחיקה מוצגת רק לבעל הפוסט */}
           {canEdit && (
             <button className="danger-btn" onClick={handleDelete}>
               🗑️ Delete
@@ -111,7 +102,6 @@ const save = async () => {
         </div>
       </div>
 
-      {/* קומפוננטת התגובות שנטענת רק כשרוצים לראותן */}
       {showComments && <CommentS postId={post.id} />}
     </div>
   );

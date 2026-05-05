@@ -1,271 +1,215 @@
-/* ===============================
-   TODOS – ROOT
-================================ */
-body{
-  background: #f9fafb;
-}
-.todos-container {
-  padding: 24px;
-  background: #f9fafb;
-  min-height: 100vh;
-  font-family: 'Segoe UI', system-ui, sans-serif;
+/* ============================================================
+   TODOS PAGE - COMPLETE STYLE (CENTERED & FRAMED)
+   ============================================================ */
+
+/* עיצוב כללי לדף */
+body {
+  margin: 0;
+  background-color: #f9fafb;
 }
 
-/* TITLE */
+.todos-container {
+  padding: 60px 24px;
+  background-color: #f9fafb;
+  min-height: 100vh;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  
+  /* מרמורק כל הדף */
+  display: flex;
+  flex-direction: column;
+  align-items: center; 
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* כותרת הדף */
 .todos-container h2 {
-  margin: 0 0 28px;
+  margin: 0 0 40px 0;
   text-align: center;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 36px;
+  font-weight: 800;
   color: #111827;
 }
 
 /* ===============================
-   FILTER BAR
-================================ */
-.todos-container .todo-filter {
+   סרגל סינון וחיפוש (מרכז)
+   =============================== */
+.todo-filter {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px;
+  gap: 15px;
   justify-content: center;
   align-items: center;
-  margin-bottom: 24px;
+  margin-bottom: 30px;
+  width: 100%;
+  max-width: 900px;
 }
 
-/* SEARCH BAR */
-.todos-container .todo-filter .search-bar {
+.search-bar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   background: white;
-  padding: 8px 10px;
-  border-radius: 14px;
+  padding: 10px 15px;
+  border-radius: 15px;
   border: 1px solid #e5e7eb;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  width: 100%;
-  max-width: 320px;
+  flex: 1;
+  max-width: 350px;
 }
 
-.todos-container .todo-filter .search-bar input {
-  flex: 1;
+.search-bar input {
   border: none;
   outline: none;
+  width: 100%;
   font-size: 14px;
 }
 
-.todos-container .todo-filter .search-bar select {
-  border: none;
-  background: #eef2ff;
-  border-radius: 10px;
-  padding: 6px 10px;
-  font-size: 13px;
-  cursor: pointer;
-}
-
-/* SELECTS */
-.todos-container .todo-filter > select {
-  min-width: 140px;
-  padding: 8px 12px;
-  border-radius: 12px;
+.search-bar select, .todo-filter > select {
   border: 1px solid #e5e7eb;
   background: white;
-  font-size: 13px;
+  border-radius: 10px;
+  padding: 8px;
   cursor: pointer;
 }
 
-.todos-container .todo-filter > select:focus {
-  outline: none;
-  border-color: #4f46e5;
-}
-
 /* ===============================
-   ADD TODO FORM
-================================ */
-.todos-container .todo-form {
+   טופס הוספת משימה (מרכז)
+   =============================== */
+.todo-form {
   display: flex;
-  gap: 12px;
+  gap: 15px;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 28px;
+  margin-bottom: 50px;
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
 }
 
-.todos-container .todo-form input {
+.todo-form input {
   flex: 1;
-  padding: 12px 14px;
-  border-radius: 14px;
+  padding: 12px 15px;
+  border-radius: 12px;
   border: 1px solid #e5e7eb;
-  font-size: 14px;
-}
-
-.todos-container .todo-form input:focus {
   outline: none;
-  border-color: #4f46e5;
 }
 
-.todos-container .todo-form button {
-  height: 44px;
-  padding: 0 18px;
-  border-radius: 14px;
-  border: none;
-  background: #4f46e5;
+.todo-form button {
+  padding: 12px 25px;
+  background-color: #4f46e5;
   color: white;
-  font-size: 14px;
-  font-weight: 500;
+  border: none;
+  border-radius: 12px;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 6px 18px rgba(79,70,229,0.25);
-  white-space: nowrap;
+  transition: background 0.2s;
 }
 
-.todos-container .todo-form button:hover {
-  background: #4338ca;
-}
-
-/* ===============================
-   TODO LIST GRID
-================================ */
-.todos-container .todo-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 16px;
+.todo-form button:hover {
+  background-color: #4338ca;
 }
 
 /* ===============================
-   TODO CARD
-================================ */
-.todos-container .todo-card {
-  border-radius: 16px;
-  padding: 14px;
-  border: 1px solid transparent;
+   רשימת משימות - 3 בשורה וממורכז
+   =============================== */
+.todo-list {
   display: grid;
-  grid-template-columns: 24px 1fr auto;
+  /* יצירת 3 עמודות שוות בגודלן */
+  grid-template-columns: repeat(3, 1fr); 
+  gap: 25px;
+  width: 100%;
+  max-width: 1000px; /* רוחב הבלוק המרכזי */
+  margin: 0 auto;
+  justify-content: center;
+}
+
+/* כרטיסיית משימה ממוסגרת */
+.todo-card {
+  border-radius: 20px;
+  padding: 20px;
+  display: grid;
+  grid-template-columns: 30px 1fr auto;
   grid-template-areas:
     "check id actions"
     "check title actions";
-  gap: 10px 12px;
+  gap: 12px;
   align-items: start;
-  transition: 0.2s ease;
-  height: 145px;
-
-  /* 🔑 תיקון קריטי */
-  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 130px;
+  box-sizing: border-box;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
 }
 
-/* STATES */
-.todos-container .todo-card.not-completed {
-  background: #eef2ff;
+.todo-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+/* משימה שלא הושלמה (כחול בהיר) */
+.todo-card.not-completed {
+  background-color: #eef2ff;
+  border: 2px solid #e0e7ff;
   color: #1f2937;
-  border-color: #e0e7ff;
 }
 
-.todos-container .todo-card.completed {
-  background: #4f46e5;
+/* משימה שהושלמה (סגול/כחול כהה) */
+.todo-card.completed {
+  background-color: #4f46e5;
+  border: 2px solid #4338ca;
   color: white;
-  border-color: #4f46e5;
 }
 
-.todos-container .todo-card:hover {
-  transform: translateY(-2px);
-}
-
-/* CHECKBOX */
-.todos-container .todo-card input[type="checkbox"] {
-  grid-area: check;
-  margin-top: 4px;
-  accent-color: #4f46e5;
-  cursor: pointer;
-}
-
-/* ID + TITLE */
-.todos-container .todo-id {
+.todo-id {
   grid-area: id;
   font-size: 12px;
-  opacity: 0.7;
+  font-weight: bold;
+  opacity: 0.6;
 }
 
-.todos-container .todo-title {
+.todo-title {
   grid-area: title;
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
-  line-height: 1.4;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-wrap: break-word;
 }
 
-/* ACTIONS */
-.todos-container .todo-actions {
+.todo-actions {
   grid-area: actions;
   display: flex;
   gap: 10px;
-  align-items: center;
-  justify-content: flex-end;
 }
 
-.todos-container .todo-actions button {
-  background: #4f46e5;
+.todo-actions button {
+  background: none;
   border: none;
-  border-radius: 10px;
-  padding: 6px 8px;
   cursor: pointer;
-  font-size: 16px;
-  color: inherit;
+  font-size: 18px;
+  padding: 5px;
+  border-radius: 8px;
+  transition: background 0.2s;
 }
 
-.todos-container .todo-card.not-completed .todo-actions button {
-  background: #eef2ff;
-  color: #4f46e5;
+.not-completed .todo-actions button:hover {
+  background: rgba(0, 0, 0, 0.05);
 }
 
-.todos-container .todo-actions button:hover {
-  opacity: 0.85;
+.completed .todo-actions button:hover {
+  background: rgba(255, 255, 255, 0.1);
 }
 
-/* ===============================
-   EDIT MODE  ✅ מתוקן
-================================ */
-.todos-container .todo-card .edit-mode {
-  grid-column: 1 / -1;
-  display: flex;
-  gap: 10px;
-  align-items: center;
-}
-
-.todos-container .todo-card .edit-mode input {
-  flex: 1;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid #e5e7eb;
-
-  /* 🔥 השורה שעושה את כל ההבדל */
-  min-width: 0;
-}
-
-.todos-container .todo-card .edit-mode button {
-  border: none;
-  border-radius: 12px;
-  padding: 10px 12px;
-  cursor: pointer;
-  background: #eef2ff;
-  color: #4f46e5;
-}
-
-.todos-container .todo-card.completed .edit-mode button {
-  background:  #4f46e5;
-  color: white;
-}
-
-/* ===============================
-   RESPONSIVE
-================================ */
-@media (max-width: 600px) {
-  .todos-container .todo-filter {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .todos-container .todo-filter .search-bar {
-    max-width: 100%;
-  }
-
-  .todos-container .todo-list {
+/* התאמה לטלפונים (משימה אחת בשורה) */
+@media (max-width: 900px) {
+  .todo-list {
     grid-template-columns: 1fr;
+    max-width: 450px;
+  }
+  
+  .todo-filter, .todo-form {
+    flex-direction: column;
+    max-width: 90%;
   }
 }

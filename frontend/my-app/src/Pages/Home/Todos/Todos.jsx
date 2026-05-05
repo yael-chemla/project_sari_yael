@@ -10,12 +10,7 @@ export default function Todos() {
 
 
   const { user } = useContext(UserContext);
-
-  // בדיקה חשובה: איך קוראים לשדה ה-ID ב-Context שלך? 
-  // אם בשרת זה userId, אולי גם כאן זה user.userId?
   const userId = user?.id;
-  console.log("--- DEBUG: Todos Component Start ---");
-  console.log("UserID status:", userId);
   const [todos, setTodos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState({ value: "", type: "title" });
@@ -24,24 +19,10 @@ export default function Todos() {
 
   useEffect(() => {
     async function loadTodos() {
-      if (!userId) {
-        console.log("No userId found, skipping fetch");
-        return;
-      }
-
       try {
         setLoading(true);
-        console.log("Fetching for userId:", userId);
-
-        // התיקון כאן: הנתונים חוזרים ישירות מהפונקציה שלך
         const data = await getTodosByUser(userId);
-
-
-
-
-
-        console.log("Data from server:", data);
-        setTodos(Array.isArray(data) ? data : []); // וידוא שמדובר במערך
+        setTodos(Array.isArray(data) ? data : []); 
       } catch (err) {
         console.error("Fetch error details:", err);
       } finally {
@@ -51,7 +32,6 @@ export default function Todos() {
     loadTodos();
   }, []);
 
-  // לוגיקת סינון (נשארת אותו דבר)
   const filteredTodos = todos.filter(todo => {
     if (!search.value) return true;
     return search.type === "id"
@@ -77,7 +57,6 @@ export default function Todos() {
         todos={filteredTodos}
         onDeleted={(id) => setTodos(prev => prev.filter(t => t.id !== id))}
         onUpdated={(updated) => {
-          // עדכון אובייקט ספציפי בתוך המערך
           setTodos(prev => prev.map(t => t.id === updated.id ? updated : t));
         }}
       />    </div>

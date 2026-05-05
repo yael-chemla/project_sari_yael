@@ -8,21 +8,18 @@ import "../../../CSS/Posts.css";
 
 export default function Posts() {
   const { user } = useContext(UserContext);
-
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState({
     value: "",
     type: "title",
   });
 
-  const [postsScope, setPostsScope] = useState("all"); // all | mine
+  const [postsScope, setPostsScope] = useState("all"); 
 
   useEffect(() => {
     async function loadPosts() {
       try {
         const data = await getPosts();
-        // ב-MySQL אנחנו רוצים לוודא שהפוסטים מסודרים לפי ID יורד (חדש למעלה) 
-        // או לפי הדרישה הספציפית של שלב ה' (לפי ID עולה)
         setPosts(data);
       } catch (err) {
         console.error("Load posts error:", err);
@@ -32,7 +29,6 @@ export default function Posts() {
     loadPosts();
   }, []);
 
-  // עדכון ה-State מיד עם הוספת פוסט חדש (Optimistic UI)
   const handleAddState = (newPost) =>
     setPosts((prev) => [newPost, ...prev]);
 
@@ -44,7 +40,6 @@ export default function Posts() {
       prev.map((p) => (p.id === updatedPost.id ? updatedPost : p))
     );
 
-  // לוגיקת הסינון
   const filteredPosts = posts
     .filter((post) =>
       postsScope === "mine"
@@ -62,7 +57,7 @@ export default function Posts() {
         ?.toLowerCase()
         .includes(search.value.toLowerCase());
     })
-    // שלב ה' דורש מיון לפי ID
+    
     .sort((a, b) => a.id - b.id);
 
   return (

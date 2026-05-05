@@ -9,7 +9,6 @@ export default function PostFilter({
 }) {
   return (
     <div className="post-filters">
-      {/* חיפוש חופשי לפי כותרת או ID - שלב ה' */}
       <SearchBar
         value={search.value}
         onChange={(value) =>
@@ -26,7 +25,6 @@ export default function PostFilter({
         ]}
       />
 
-      {/* בחירת טווח הפוסטים (כל הפוסטים / הפוסטים שלי) - שלב ה' */}
       <Select
         value={postsScope}
         onChange={setPostsScope}

@@ -5,13 +5,11 @@ import Info from "./Info.jsx";
 import "../../CSS/Header.css";
 
 export default function Header() {
-  // השתמשנו ב-logout שבנינו ב-UserProvider
   const { user, logout } = useContext(UserContext);
   const [showInfo, setShowInfo] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // הפונקציה logout מה-Context כבר מטפלת במחיקת LS ואיפוס ה-State
     logout();
     navigate("/login");
   };
@@ -21,15 +19,9 @@ export default function Header() {
       <header className="app-header">
         <div className="header-left">
           <nav className="nav-links">
-            {/* דף הבית */}
             <NavLink to={`/users/${user?.id}/home`}>Home</NavLink>
-
-            {/* משימות - הסרתי את ה-home מהנתיב */}
             <NavLink to={`/users/${user?.id}/todos`}>Todos</NavLink>
-
-            {/* פוסטים - הסרתי את ה-home מהנתיב */}
             <NavLink to={`/users/${user?.id}/posts`}>Posts</NavLink>
-
             <button className="info-btn" onClick={() => setShowInfo(true)}>
               Info
             </button>
@@ -38,11 +30,7 @@ export default function Header() {
 
         <div className="header-right">
           <span className="user-name">Hello {user?.name || "Guest"}</span>
-
-          {/* מודאל המידע האישי */}
           {showInfo && <Info onClose={() => setShowInfo(false)} />}
-
-          {/* כפתור יציאה לפי שלב ג' */}
           <button className="logout-btn" onClick={handleLogout}>
             Logout
           </button>

@@ -6,36 +6,17 @@ export default function CommentItem({ comment, canEdit, onDeleted, onUpdated }) 
   const [text, setText] = useState(comment.body);
   const [isProcessing, setIsProcessing] = useState(false);
 
-  // const handleSave = async () => {
-  //   if (!text.trim()) return;
-  //   try {
-  //     setIsProcessing(true);
-  //     // שליחת העדכון לשרת (מבוסס על ה-ID הייחודי מה-DB)
-  //     const updated = await updateComment(comment.id, {
-  //       ...comment,
-  //       body: text.trim()
-  //     });
-  //     onUpdated(updated);
-  //     setEdit(false);
-  //   } catch (err) {
-  //     alert("Failed to update comment");
-  //   } finally {
-  //     setIsProcessing(false);
-  //   }
-  // };
-  // בתוך CommentItem.jsx
 const handleSave = async () => {
-    if (!text.trim()) return;
+    if (!text.trim()) {
+      alert("Comment body cannot be empty");
+      return;
+    }
     try {
         setIsProcessing(true);        
-        // כאן אנחנו מעבירים את ה-ID מהאובייקט comment
-        const updated = await updateComment(comment.id, {
-            body: text.trim()
-        });
+        const updated = await updateComment(comment.id, text.trim());
         onUpdated(updated);
         setEdit(false);
     } catch (err) {
-        console.error("[Component] שגיאה בעדכון:", err);
         alert("Failed to update comment");
     } finally {
         setIsProcessing(false);
@@ -59,7 +40,6 @@ const handleSave = async () => {
   return (
     <div className={`comment-card ${isProcessing ? "processing" : ""}`}>
       <div className="comment-header">
-        {/* מציג את האימייל של כותב התגובה */}
         <span className="comment-author">{comment.email || "Anonymous"}</span>
       </div>
 
@@ -87,7 +67,6 @@ const handleSave = async () => {
         <div className="comment-view-mode">
           <div className="comment-body">{comment.body}</div>
           
-          {/* הרשאות: רק אם המשתמש הוא בעל התגובה, יוצגו כפתורי פעולה */}
           {canEdit && (
             <div className="comment-actions">
               <button onClick={() => setEdit(true)} title="Edit">✏️</button>

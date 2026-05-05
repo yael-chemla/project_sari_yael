@@ -9,13 +9,13 @@ export default function PostForm({ onPostAdded }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const submit = async () => {
-        // וולידציה - לוודא שאין רק רווחים
-        if (!title.trim() || !body.trim()) return;
+        if (!title.trim() || !body.trim()) {
+            alert("Title and body cannot be empty");
+            return;
+        }
 
         try {
             setIsSubmitting(true);
-            
-            // שליחת הפוסט לשרת. השרת יחזיר אובייקט עם ה-ID שנוצר ב-MySQL
             const newPost = await addPost({ 
                 userId: user.id, 
                 title: title.trim(), 
